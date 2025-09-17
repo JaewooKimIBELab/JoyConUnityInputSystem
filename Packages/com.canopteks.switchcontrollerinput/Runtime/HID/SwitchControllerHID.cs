@@ -901,7 +901,7 @@ namespace UnityEngine.InputSystem.Switch
                 return new StickCalibrationData() { xMin = 0, xMax = 0, yMin = 0, yMax = 0, xCenter = 0, yCenter = 0 };
             }
 
-            public override readonly string ToString()
+            public override string ToString()
             {
                 return String.Format($"Center: ({xCenter:X2};{yCenter:X2}), X range: [{xMin:X2}-{xMax:X2}], Y range: [{yMin:X2}-{yMax:X2}]");
             }
