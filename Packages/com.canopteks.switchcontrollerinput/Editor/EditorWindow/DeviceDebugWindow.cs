@@ -152,6 +152,32 @@ namespace SwitchControllerInput.Editor
                         controller.SetIMUEnabled(false);
                     }
                     EditorGUILayout.EndHorizontal();
+
+                    EditorGUILayout.Separator();
+                    GUILayout.Label("LEDs: ", EditorStyles.boldLabel);
+                    EditorGUILayout.BeginHorizontal();
+                    if (GUILayout.Button("P1"))
+                    {
+                        controller.SetLEDs(p1: LEDStatusEnum.On);
+                    }
+                    if (GUILayout.Button("P2"))
+                    {
+                        controller.SetLEDs(p2: LEDStatusEnum.On);
+                    }
+                    if (GUILayout.Button("P3"))
+                    {
+                        controller.SetLEDs(p3: LEDStatusEnum.On);
+                    }
+                    if (GUILayout.Button("P4"))
+                    {
+                        controller.SetLEDs(p4: LEDStatusEnum.On);
+                    }
+                    if (GUILayout.Button("Off"))
+                    {
+                        controller.SetLEDs();
+                    }
+                    EditorGUILayout.EndHorizontal();
+
                     if (GUILayout.Button("Read Factory Calibration"))
                     {
                         controller.ReadFactoryIMUCalibrationData();
