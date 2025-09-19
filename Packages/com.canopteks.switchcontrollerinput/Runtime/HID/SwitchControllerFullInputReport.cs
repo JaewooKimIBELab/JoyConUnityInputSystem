@@ -43,7 +43,7 @@ namespace UnityEngine.InputSystem.Switch.LowLevel
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public SwitchControllerVirtualInputState ToHIDInputReport(ref SwitchControllerHID.CalibrationData calibData, SpecificControllerTypeEnum controllerType, Vector3 currentOrientation)
+        public SwitchControllerVirtualInputState ToHIDInputReport(ref SwitchControllerHID.CalibrationData calibData, SpecificControllerTypeEnum controllerType)
         {
             var leftStickVec = Vector2.zero;
             var rightStickVec = Vector2.zero;
@@ -84,14 +84,19 @@ namespace UnityEngine.InputSystem.Switch.LowLevel
             }
 
             // Debug.Log($"Creating input stuff: right stick is {rightStickVec}");
+            Vector3 uncalibratedAccel = imuData0ms.UncalibratedAcceleration;
+            Vector3 uncalibratedGyro = imuData0ms.UncalibratedGyro;
+            Vector3 calibratedAccel = imuData0ms.CalibratedAcceleration(ref calibData.imuCalibData);
+            Vector3 calibratedGyro = imuData0ms.CalibratedGyro(ref calibData.imuCalibData);
+
             var state = new SwitchControllerVirtualInputState
             {
                 leftStick = leftStickVec,
                 rightStick = rightStickVec,
-                // TODO: Calibrate these bad boys
-                acceleration = imuData0ms.UncalibratedAcceleration,
-                orientation = currentOrientation + imuData0ms.UncalibratedGyro,
-                angularVelocity = imuData0ms.UncalibratedGyro
+                uncalibratedAcceleration = uncalibratedAccel,
+                uncalibratedAngularVelocity = uncalibratedGyro,
+                acceleration = calibratedAccel,
+                angularVelocity = calibratedGyro
             };
 
             state.Set(SwitchControllerVirtualInputState.Button.Y, (rightButtons & 0x01) != 0);
